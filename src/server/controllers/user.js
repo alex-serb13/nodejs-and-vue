@@ -21,9 +21,13 @@ export const signin = async (req, res) => {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
-    const token = jwt.sign({ email: user.email, id: user._id }, secret, {
-      expiresIn: tokenValidity,
-    });
+    const token = jwt.sign(
+      { email: user.email, id: user._id, name: user.name },
+      secret,
+      {
+        expiresIn: tokenValidity,
+      }
+    );
 
     res.status(200).json({ token });
   } catch (err) {
@@ -49,14 +53,20 @@ export const signup = async (req, res) => {
       name: `${firstName} ${lastName}`,
     });
 
-    const token = jwt.sign({ email: newUser.email, id: newUser._id }, secret, {
-      expiresIn: tokenValidity,
-    });
+    const token = jwt.sign(
+      {
+        email: newUser.email,
+        id: newUser._id,
+        name: `${firstName} ${lastName}`,
+      },
+      secret,
+      {
+        expiresIn: tokenValidity,
+      }
+    );
 
     res.status(201).json({ token });
   } catch (error) {
     res.status(500).json({ message: "Something went wrong" });
-
-    console.log(error);
   }
 };

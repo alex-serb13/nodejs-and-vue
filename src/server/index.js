@@ -2,6 +2,7 @@ import { config } from "dotenv";
 import express from "express";
 import mongoose from "mongoose";
 import passport from "passport";
+import cors from "cors";
 import "./passport";
 
 import swagger from "swagger-ui-express";
@@ -12,6 +13,7 @@ import TasksRoutes from "./routes/tasks";
 
 config();
 const app = express();
+app.use(cors());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
