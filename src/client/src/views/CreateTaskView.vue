@@ -12,8 +12,10 @@ const router = useRouter();
 const store = useStore();
 const token = computed(() => store.state.token).value;
 
+const endpoint = import.meta.env.VITE_API_ENDPOINT;
+
 const handleSubmit = () => {
-  fetch("http://localhost:5000/tasks", {
+  fetch(`${endpoint}/tasks`, {
     headers: {
       "content-type": "application/json",
       Authorization: `Bearer ${token}`,

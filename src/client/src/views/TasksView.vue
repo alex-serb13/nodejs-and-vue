@@ -18,7 +18,9 @@ const token = computed(() => store.state.token).value;
 const tasks = ref([]);
 const isLoading = ref(true);
 
-fetch("http://localhost:5000/tasks", {
+const endpoint = import.meta.env.VITE_API_ENDPOINT;
+
+fetch(`${endpoint}/tasks`, {
   headers: { Authorization: `Bearer ${token}` },
 })
   .then((res) => res.json())

@@ -18,7 +18,9 @@ const id = route.params.id;
 const task = ref({});
 const isLoading = ref(true);
 
-fetch(`http://localhost:5000/tasks/${id}`, {
+const endpoint = import.meta.env.VITE_API_ENDPOINT;
+
+fetch(`${endpoint}/tasks/${id}`, {
   headers: { Authorization: `Bearer ${token}` },
 })
   .then((res) => res.json())

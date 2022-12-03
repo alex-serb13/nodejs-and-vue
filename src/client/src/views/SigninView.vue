@@ -11,8 +11,10 @@ const password = ref(null);
 const router = useRouter();
 const store = useStore();
 
+const endpoint = import.meta.env.VITE_API_ENDPOINT;
+
 const handleSubmit = () => {
-  fetch("http://localhost:5000/signin", {
+  fetch(`${endpoint}/signin`, {
     headers: {
       "content-type": "application/json",
     },
