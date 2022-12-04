@@ -1,7 +1,20 @@
 import { createStore } from "vuex";
 import jwt_decode from "jwt-decode";
+import router from "./router";
 
-const token = localStorage.getItem("token");
+export const validateToken = () => {
+  const token = localStorage.getItem("token");
+  const decodedToken = token ? jwt_decode(token) : null;
+  const time = parseInt(Date.now() / 1000);
+
+  if (token && time > decodedToken?.exp) {
+    return null;
+  }
+
+  return token;
+};
+
+const token = validateToken();
 
 const state = {
   isAuthenticated: token ? true : false,
@@ -31,7 +44,8 @@ const store = createStore({
 
     signout(context) {
       localStorage.removeItem("token");
-      context.commit("authenticate", false);
+      context.commit("signout");
+      router.push("signin");
     },
   },
   mutations: {
@@ -42,7 +56,28 @@ const store = createStore({
     decodedUser(state, { user }) {
       state.user = user;
     },
+    signout(state) {
+      state.isAuthenticated = false;
+      state.token = null;
+      state.user = null;
+    },
   },
 });
+
+// Request intercerptor to validate the token before
+// each request that uses a token
+window.originalFetch = window.fetch;
+
+// Then override fetch function with interceptor
+window.fetch = async (...args) => {
+  const authToken = args[1]?.headers?.Authorization?.split(" ")?.[1];
+
+  if (authToken && !validateToken()) {
+    store.dispatch("signout");
+    return;
+  }
+
+  return window.originalFetch(...args);
+};
 
 export default store;

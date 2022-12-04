@@ -13,7 +13,7 @@
           >
             <div class="bg-slate-300 h-10 w-10"></div>
           </div>
-          <div><ArrowUpRightIcon class="text-gray-300 h-8 w-8" /></div>
+          <div></div>
         </div>
         <div class="sm:min-w-0 sm:flex-1">
           <div class="h-6 bg-slate-300 rounded col-span-2"></div>

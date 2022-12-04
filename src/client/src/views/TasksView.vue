@@ -23,9 +23,9 @@ const endpoint = import.meta.env.VITE_API_ENDPOINT;
 fetch(`${endpoint}/tasks`, {
   headers: { Authorization: `Bearer ${token}` },
 })
-  .then((res) => res.json())
+  .then((res) => res?.json())
   .then((data) => {
-    tasks.value = data.tasks;
+    tasks.value = data?.tasks || [];
     isLoading.value = false;
   });
 </script>
